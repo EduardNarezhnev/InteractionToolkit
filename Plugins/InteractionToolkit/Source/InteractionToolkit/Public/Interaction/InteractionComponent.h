@@ -4,6 +4,8 @@
 #include "Components/ActorComponent.h"
 #include "InteractionComponent.generated.h"
 
+class UInteractionPrompt;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class INTERACTIONTOOLKIT_API UInteractionComponent : public UActorComponent
 {
@@ -26,9 +28,17 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Interaction")
     void Interact();
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+    TSubclassOf<UUserWidget> PromptClass;
+
 protected:
     virtual void BeginPlay() override;
 
 private:
     FTimerHandle SearchTimer;
+
+    UPROPERTY()
+    UInteractionPrompt* PromptWidget = nullptr;
+
+    void UpdatePrompt();
 };

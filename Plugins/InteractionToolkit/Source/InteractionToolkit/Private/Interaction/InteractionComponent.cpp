@@ -1,6 +1,8 @@
 #include "Interaction/InteractionComponent.h"
 #include "Interaction/InteractionInterface.h"
+#include "Interaction/InteractionPrompt.h"
 #include "GameFramework/Actor.h"
+#include "Blueprint/UserWidget.h"
 #include "Engine/World.h"
 #include "Engine/OverlapResult.h"
 #include "TimerManager.h"
@@ -61,6 +63,8 @@ void UInteractionComponent::FindInteractable()
     }
 
     CurrentInteractable = Closest;
+
+    UpdatePrompt();
 }
 
 void UInteractionComponent::Interact()
@@ -70,5 +74,36 @@ void UInteractionComponent::Interact()
     if(CurrentInteractable->GetClass()->ImplementsInterface(UInteractionInterface::StaticClass()))
     {
         IInteractionInterface::Execute_Interact(CurrentInteractable, GetOwner());
+    }
+}
+
+void UInteractionComponent::UpdatePrompt()
+{
+    if(!PromptClass) return;
+
+    if(CurrentInteractable)
+    {
+        if(!PromptWidget)
+        {
+            PromptWidget = CreateWidget<UInteractionPrompt>(GetWorld(), PromptClass);
+            if(PromptWidget)
+            {
+                PromptWidget->AddToViewport();
+            }
+        }
+
+        if(PromptWidget)
+        {
+            FText Text = IInteractionInterface::Execute_GetInteractionText(CurrentInteractable);
+            PromptWidget->SetPromptText(Text);
+            PromptWidget->SetVisibility(ESlateVisibility::Visible);
+        }
+    }
+    else
+    {
+        if(PromptWidget)
+        {
+            PromptWidget->SetVisibility(ESlateVisibility::Hidden);
+        }
     }
 }
