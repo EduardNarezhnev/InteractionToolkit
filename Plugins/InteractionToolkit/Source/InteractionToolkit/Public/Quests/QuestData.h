@@ -18,4 +18,7 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest")
     TArray<FQuestObjective> Objectives;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Quest")
+    bool bCompleted = false;
 };

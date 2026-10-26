@@ -1,21 +1,71 @@
 #include "Quests/QuestComponent.h"
 #include "Quests/QuestData.h"
+#include "Quests/QuestHUD.h"
+#include "Blueprint/UserWidget.h"
 
 UQuestComponent::UQuestComponent()
 {
     PrimaryComponentTick.bCanEverTick = false;
 }
 
+void UQuestComponent::BeginPlay()
+{
+    Super::BeginPlay();
+
+    if(QuestHUDClass)
+    {
+        QuestHUDWidget = CreateWidget<UQuestHUD>(GetWorld(), QuestHUDClass);
+        if(QuestHUDWidget)
+        {
+            QuestHUDWidget->AddToViewport();
+        }
+    }
+}
+
+void UQuestComponent::UpdateQuestHUD()
+{
+    if (!QuestHUDWidget) return;
+
+    UQuestData* Quest = nullptr;
+    for (UQuestData* Q : ActiveQuests)
+    {
+        if (Q && !Q->bCompleted)
+        {
+            Quest = Q;
+            break;
+        }
+    }
+
+    if (!Quest)
+    {
+        QuestHUDWidget->SetVisibility(ESlateVisibility::Hidden);
+        return;
+    }
+
+    QuestHUDWidget->SetVisibility(ESlateVisibility::Visible);
+
+    if (Quest->Objectives.Num() == 0) return;
+
+    const FQuestObjective& Objective = Quest->Objectives[0];
+    int32* ProgressPtr = ObjectiveProgress.Find(Objective.ObjectiveID);
+    int32 CurrentProgress = ProgressPtr ? *ProgressPtr : 0;
+
+    QuestHUDWidget->UpdateQuestDisplay(Quest->QuestName, CurrentProgress, Objective.RequiredProgress);
+}
+
 void UQuestComponent::StartQuest(UQuestData* Quest)
 {
     if(!Quest) return;
 
+    Quest->bCompleted = false;
     ActiveQuests.Add(Quest);
 
     for(const FQuestObjective& Objective : Quest->Objectives)
     {
         ObjectiveProgress.Add(Objective.ObjectiveID, 0);
     }
+
+    UpdateQuestHUD();
 }
 
 void UQuestComponent::UpdateProgress(FName ObjectiveID, int32 Progress)
@@ -52,7 +102,9 @@ void UQuestComponent::UpdateProgress(FName ObjectiveID, int32 Progress)
 
     for (UQuestData* Quest : CompletedQuests)
     {
-        ActiveQuests.Remove(Quest);
+        Quest->bCompleted = true;
         OnQuestCompleted.Broadcast(Quest);
     }
+
+    UpdateQuestHUD();
 }

@@ -30,6 +30,17 @@ public:
     UPROPERTY(BlueprintAssignable, Category = "Quest")
     FOnObjectiveProgress OnObjectiveProgress;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest")
+    TSubclassOf<UUserWidget> QuestHUDClass;
+
+protected:
+    virtual void BeginPlay() override;
+
 private:
     TMap<FName, int32> ObjectiveProgress;
+
+    UPROPERTY()
+    class UQuestHUD* QuestHUDWidget = nullptr;
+
+    void UpdateQuestHUD();
 };
