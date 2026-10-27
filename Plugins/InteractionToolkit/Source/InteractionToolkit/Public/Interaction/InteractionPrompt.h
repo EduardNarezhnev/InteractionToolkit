@@ -11,7 +11,6 @@ class INTERACTIONTOOLKIT_API UInteractionPrompt : public UUserWidget
 {
     GENERATED_BODY()
 public:
-    UFUNCTION(BlueprintCallable, Category = "Interaction")
     void SetPromptText(const FText& Text);
 
 protected:

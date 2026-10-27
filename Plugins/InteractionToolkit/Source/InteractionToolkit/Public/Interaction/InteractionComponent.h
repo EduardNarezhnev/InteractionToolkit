@@ -20,6 +20,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
     float SearchInterval = 0.1f;
 
+    UPROPERTY(BlueprintReadOnly, Category = "Interaction")
     AActor* CurrentInteractable = nullptr;
 
     UFUNCTION(BlueprintCallable, Category = "Interaction")

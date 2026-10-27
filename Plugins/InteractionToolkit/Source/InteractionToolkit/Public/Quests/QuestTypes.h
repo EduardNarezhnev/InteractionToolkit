@@ -9,15 +9,12 @@ struct INTERACTIONTOOLKIT_API FQuestObjective
     GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Quest")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest")
     FName ObjectiveID;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Quest")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest")
     FText Description;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "Quest")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Quest")
     int32 RequiredProgress = 1;
-
-    UPROPERTY(BlueprintReadOnly, Category = "Quest")
-    int32 CurrentProgress = 0;
 };

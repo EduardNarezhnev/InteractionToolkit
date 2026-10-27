@@ -12,12 +12,15 @@ void UQuestComponent::BeginPlay()
 {
     Super::BeginPlay();
 
-    if(QuestHUDClass)
+    if (QuestHUDClass)
     {
-        QuestHUDWidget = CreateWidget<UQuestHUD>(GetWorld(), QuestHUDClass);
-        if(QuestHUDWidget)
+        if (UWorld* World = GetWorld())
         {
-            QuestHUDWidget->AddToViewport();
+            QuestHUDWidget = CreateWidget<UQuestHUD>(World, QuestHUDClass);
+            if (QuestHUDWidget)
+            {
+                QuestHUDWidget->AddToViewport();
+            }
         }
     }
 }

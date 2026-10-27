@@ -13,7 +13,6 @@ class INTERACTIONTOOLKIT_API UQuestHUD : public UUserWidget
     GENERATED_BODY()
 
 public:
-    UFUNCTION(BlueprintCallable, Category = "Quest")
     void UpdateQuestDisplay(const FText& QuestName, const FText& QuestDescription, int32 CurrentProgress, int32 RequiredProgress);
 
 protected:

@@ -16,13 +16,17 @@ void UInteractionComponent::BeginPlay()
 {
     Super::BeginPlay();
 
-    GetWorld()->GetTimerManager().SetTimer(
-        SearchTimer,
-        this,
-        &UInteractionComponent::FindInteractable,
-        SearchInterval,
-        true
+    if (UWorld* World = GetWorld())
+    {
+        GetWorld()->GetTimerManager().SetTimer(
+            SearchTimer,
+            this,
+            &UInteractionComponent::FindInteractable,
+            SearchInterval,
+            true
     );
+}
+    
 }
 
 void UInteractionComponent::FindInteractable()
