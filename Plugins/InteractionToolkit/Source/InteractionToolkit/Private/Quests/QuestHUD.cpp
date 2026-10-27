@@ -2,11 +2,16 @@
 #include "Components/TextBlock.h"
 #include "Components/ProgressBar.h"
 
-void UQuestHUD::UpdateQuestDisplay(const FText& QuestName, int32 CurrentProgress, int32 RequiredProgress)
+void UQuestHUD::UpdateQuestDisplay(const FText& QuestName, const FText& QuestDescription, int32 CurrentProgress, int32 RequiredProgress)
 {
     if(QuestNameText)
     {
         QuestNameText->SetText(QuestName);
+    }
+
+    if(QuestDescriptionText)
+    {
+        QuestDescriptionText->SetText(QuestDescription);
     }
 
     if(QuestProgressBar && RequiredProgress > 0)

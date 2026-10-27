@@ -50,7 +50,7 @@ void UQuestComponent::UpdateQuestHUD()
     int32* ProgressPtr = ObjectiveProgress.Find(Objective.ObjectiveID);
     int32 CurrentProgress = ProgressPtr ? *ProgressPtr : 0;
 
-    QuestHUDWidget->UpdateQuestDisplay(Quest->QuestName, CurrentProgress, Objective.RequiredProgress);
+    QuestHUDWidget->UpdateQuestDisplay(Quest->QuestName, Quest->QuestDescription, CurrentProgress, Objective.RequiredProgress);
 }
 
 void UQuestComponent::StartQuest(UQuestData* Quest)
@@ -81,7 +81,7 @@ void UQuestComponent::UpdateProgress(FName ObjectiveID, int32 Progress)
 
     for (UQuestData* Quest : ActiveQuests)
     {
-        if (!Quest) continue;
+        if (!Quest || Quest->bCompleted) continue;
 
         bool bAllComplete = true;
         for (const FQuestObjective& Objective : Quest->Objectives)

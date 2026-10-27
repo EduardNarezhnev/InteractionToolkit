@@ -14,11 +14,14 @@ class INTERACTIONTOOLKIT_API UQuestHUD : public UUserWidget
 
 public:
     UFUNCTION(BlueprintCallable, Category = "Quest")
-    void UpdateQuestDisplay(const FText& QuestName, int32 CurrentProgress, int32 RequiredProgress);
+    void UpdateQuestDisplay(const FText& QuestName, const FText& QuestDescription, int32 CurrentProgress, int32 RequiredProgress);
 
 protected:
     UPROPERTY(meta = (BindWidget))
     TObjectPtr<UTextBlock> QuestNameText;
+
+    UPROPERTY(meta = (BindWidget))
+    TObjectPtr<UTextBlock> QuestDescriptionText;    
 
     UPROPERTY(meta = (BindWidget))
     TObjectPtr<UProgressBar> QuestProgressBar;
