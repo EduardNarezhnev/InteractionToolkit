@@ -12,6 +12,12 @@ Interaction Toolkit is a plugin that provides two independent systems:
 
 The plugin can be dropped into any UE5 project and used without modifying its source code.
 
+## Controls
+
+- WASD — movement
+- Mouse — look
+- E — interact
+
 ## Features
 
 - **Interaction System**
@@ -68,6 +74,12 @@ Unzip the archive and run `InteractionDemo.exe`.
 ## Video
 
 [Plugin demo on YouTube](https://youtu.be/ew1aC2qPtEQ)
+
+## Known Limitations
+
+- Demo project, not for production use.
+- No save/load for quest progress between sessions.
+- Windows 64-bit only.
 
 ## Contact
 
